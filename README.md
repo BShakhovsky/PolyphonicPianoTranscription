@@ -1,12 +1,32 @@
 # Automatic Polyphonic Piano Transcription with Recurrent Neural Networks
 IPython-notebook templates for neural network training and then using it to generate piano MIDI-files from audio (MP3, WAV, etc.).  The accuracy will depend on the complexity of the song, and will obviously be higher for solo piano pieces.
 
+# Update (2021 March)
+
+There is another pre-trained __*Magenta's*__ model in __*TensorFlow Lite*__ format, it can be downloaded here:
+https://storage.googleapis.com/magentadata/models/onsets_frames_transcription/tflite/onsets_frames_wavinput.tflite
+or look for the link in the GitHub-repository:
+https://github.com/magenta/magenta/tree/master/magenta/models/onsets_frames_transcription/realtime
+
+It takes as input approximately 1 second of raw audio (not 20 seconds of mel spectrogram).  There is an example of using the model in my fifth IPython template ("5 TF Lite Inference.ipynb").  This model is super-fast on my Android device and accuracy is still not bad.  To see my app for Android 8.0 (API level 26) or higher, click on the following screenshot:
+
+[![](https://raw.GitHubUserContent.com/BShakhovsky/BShakhovsky.github.io/master/Android.png 'Android 8.0')](https://GitHub.com/BShakhovsky/PianoTranscription_Android/blob/master/README.md)
+
+or get it on Google Play:
+
+[![](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png 'Get it on Google Play')](https://play.google.com/store/apps/details?id=ru.BShakhovsky.Piano_Transcription)
+
+The previous full Tensorflow model (not TensorFlow Lite) is used in my app for Windows 7 or later, to see it click on the following screenshot:
+
+[![](https://GitHub.com/BShakhovsky/PianoTranscription3D/raw/master/Keyboard.png 'Windows 7')](https://GitHub.com/BShakhovsky/PianoTranscription3D/blob/master/README.md)
+
+
 # Update (2019 June)
 
 There is Google's model called __*"Onsets & Frames"*__ with very good accuracy, see the following blog post:
 https://magenta.tensorflow.org/onsets-frames
 or GitHub-repository:
-https://github.com/tensorflow/magenta/tree/master/magenta/models/onsets_frames_transcription
+https://github.com/magenta/magenta/tree/master/magenta/models/onsets_frames_transcription
 
 Just for fun, I blindly copied those model parameters, and trained the model in the second IPython template.  But my resultant accuracy was slightly less, probably because of the reduced batch size.  So, eventually, in the third IPython template, instead of training my own model, I just copied the weights from the Google's pre-trained tensorflow checkpoint:
 https://storage.googleapis.com/magentadata/models/onsets_frames_transcription/maestro_checkpoint.zip
@@ -14,7 +34,7 @@ https://storage.googleapis.com/magentadata/models/onsets_frames_transcription/ma
 # Troubleshooting
 If Python __*"Librosa"*__ module cannot open any audio format except WAV, __*download FFmpeg codec:*__
 
-[![](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/FFmpeg_Logo_new.svg/500px-FFmpeg_Logo_new.svg.png 'FFmpeg')](https://ffmpeg.zeranoe.com/builds/)
+[![](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/FFmpeg_Logo_new.svg/500px-FFmpeg_Logo_new.svg.png 'FFmpeg')](https://web.archive.org/web/20200918014242/https://ffmpeg.zeranoe.com/builds/)
 
 Choose your Windows architecture and static linking there.  And do not forget to add the __*"PATH"*__ environment variable with the location of your downloaded __*"ffmpeg.exe"*__.  Or see more detailed instructions here:
 
@@ -112,7 +132,7 @@ From https://arxiv.org/pdf/1710.11153.pdf, Page 2, Section 3 "Model Configuratio
 
 `The onset detector is composed of the acoustic model, followed by a bidirectional LSTM ... with 128 units in both the forward and backward directions, followed by a fully connected sigmoid layer with 88 outputs for representing the probability of an onset for each of the 88 piano keys.`
 
-Acoustic convolutional stack is taken from https://arxiv.org/pdf/1612.05153.pdf, Page 5, Section 5 "State of the Art Models", Table 4 "Model Architectures", ConvNet column.  In our case there are 625 + 1 frames (20 seconds), there is bidirectional __*LSTM*__ layer in between the last two fully-connected layers, batch normalization is heavily used, dropout is not required, and remaining parameters are from https://arxiv.org/pdf/1810.12247.pdf (also, from https://github.com/tensorflow/magenta/blob/master/magenta/models/onsets_frames_transcription/model.py ):
+Acoustic convolutional stack is taken from https://arxiv.org/pdf/1612.05153.pdf, Page 5, Section 5 "State of the Art Models", Table 4 "Model Architectures", ConvNet column.  In our case there are 625 + 1 frames (20 seconds), there is bidirectional __*LSTM*__ layer in between the last two fully-connected layers, batch normalization is heavily used, dropout is not required, and remaining parameters are from https://arxiv.org/pdf/1810.12247.pdf (also, from https://github.com/magenta/magenta/blob/master/magenta/models/onsets_frames_transcription/model.py ):
 
 Page 5, Section 4 "Piano Transcription":
 1. `... increased the size of the bidirectional LSTM layers from 128 to 256 units,`
@@ -148,7 +168,7 @@ From https://arxiv.org/pdf/1710.11153.pdf, Page 3, Section 3.1 "Velocity Estimat
 Vmidi = 80 * Vpredicted + 10
 
 ## 2.1. Training & Validation
-From https://arxiv.org/pdf/1710.11153.pdf (also from https://github.com/tensorflow/magenta/blob/master/magenta/models/onsets_frames_transcription/model.py ):
+From https://arxiv.org/pdf/1710.11153.pdf (also from https://github.com/magenta/magenta/blob/master/magenta/models/onsets_frames_transcription/model.py ):
 
 Page 4, Section 4 "Experiments":
 
@@ -181,7 +201,7 @@ In the third IPython template, instead of training my own model, I just copied t
 https://storage.googleapis.com/magentadata/models/onsets_frames_transcription/maestro_checkpoint.zip
 
 Or look for the link here:
-https://github.com/tensorflow/magenta/tree/master/magenta/models/onsets_frames_transcription)
+https://github.com/magenta/magenta/tree/master/magenta/models/onsets_frames_transcription
 
 
 # 4 Piano Audio to Midi
@@ -199,3 +219,12 @@ Page 2, Section 3 "Model Configuration":
 `An activation from the frame detector is only allowed to start a note if the onset detector agrees that an onset is present in that frame.`
 
 There could be lots of noticeable false-positive notes in high octaves where they absolutely surely should not be.  If it is too annoying, then I cannot think of any better solution than to use much higher threshold for higher octaves :disappointed:
+
+# 5 TF Lite Inference
+
+In the fifth IPython template I used another pre-trained __*Magenta's*__ model in __*TensorFlow Lite*__ format, it can be downloaded here:
+https://storage.googleapis.com/magentadata/models/onsets_frames_transcription/tflite/onsets_frames_wavinput.tflite
+or look for the link in the GitHub-repository:
+https://github.com/magenta/magenta/tree/master/magenta/models/onsets_frames_transcription/realtime
+
+It takes as input approximately 1 second of raw audio (not 20 seconds of mel spectrogram).  This model is super-fast on my Android device and accuracy is still not bad.
