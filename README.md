@@ -1,4 +1,7 @@
 # Automatic Polyphonic Piano Transcription with Recurrent Neural Networks
+
+![](https://img.shields.io/github/downloads/BShakhovsky/PolyphonicPianoTranscription/total?logo=jupyter&style=plastic)
+
 IPython-notebook templates for neural network training and then using it to generate piano MIDI-files from audio (MP3, WAV, etc.).  The accuracy will depend on the complexity of the song, and will obviously be higher for solo piano pieces.
 
 # Update (2021 March)
@@ -127,7 +130,7 @@ I blindly copied those model parameters, except:
 2. Dropout is not required at all, because there is no sign of overfitting.
 3. It was impossible to keep the recommended batch size of 8 on my machine, so I reduced it to 4.
 
-## Onsets CNN subnetwork
+## Onsets RNN subnetwork
 From https://arxiv.org/pdf/1710.11153.pdf, Page 2, Section 3 "Model Configuration":
 
 `The onset detector is composed of the acoustic model, followed by a bidirectional LSTM ... with 128 units in both the forward and backward directions, followed by a fully connected sigmoid layer with 88 outputs for representing the probability of an onset for each of the 88 piano keys.`
