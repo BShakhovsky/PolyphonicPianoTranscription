@@ -4,16 +4,16 @@
 
 IPython-notebook templates for neural network training and then using it to generate piano MIDI-files from audio (MP3, WAV, etc.).  The accuracy will depend on the complexity of the song, and will obviously be higher for solo piano pieces.
 
-# Update (2021 March)
+# Update (2021 May)
 
 There is another pre-trained __*Magenta's*__ model in __*TensorFlow Lite*__ format, it can be downloaded here:
 https://storage.googleapis.com/magentadata/models/onsets_frames_transcription/tflite/onsets_frames_wavinput.tflite
 or look for the link in the GitHub-repository:
 https://github.com/magenta/magenta/tree/master/magenta/models/onsets_frames_transcription/realtime
 
-It takes as input approximately 1 second of raw audio (not 20 seconds of mel spectrogram).  There is an example of using the model in my fifth IPython template ("5 TF Lite Inference.ipynb").  This model is super-fast on my Android device and accuracy is still not bad.  To see my app for Android 8.0 (API level 26) or higher, click on the following screenshot:
+It takes as input approximately 1 second of raw audio (not 20 seconds of mel spectrogram).  There is an example of using the model in my fifth IPython template ("5 TF Lite Inference.ipynb").  This model is super-fast on my Android device and accuracy is still not bad.  To see my app for Android 4.4 KitKat (API level 19) or higher, click on the following screenshot:
 
-[![](https://raw.GitHubUserContent.com/BShakhovsky/BShakhovsky.github.io/master/Android.png 'Android 8.0')](https://GitHub.com/BShakhovsky/PianoTranscription_Android/blob/master/README.md)
+[![](https://raw.GitHubUserContent.com/BShakhovsky/BShakhovsky.github.io/master/Android.png 'Android')](https://GitHub.com/BShakhovsky/PianoTranscription_Android/blob/master/README.md)
 
 or get it on Google Play:
 
